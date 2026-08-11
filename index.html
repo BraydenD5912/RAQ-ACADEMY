@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAQ Academy — Private Supplier Network</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #050911;
+      --bg-card: rgba(15, 23, 42, 0.6);
+      --bg-card-hover: rgba(22, 35, 59, 0.8);
+      --accent-red: #8b1523;
+      --accent-red-bright: #dc2626;
+      --accent-glow: rgba(220, 38, 38, 0.35);
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --border-glow: rgba(220, 38, 38, 0.4);
+      --font-serif: 'Cinzel', serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(139, 21, 35, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(30, 58, 138, 0.15) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-red);
+    }
+
+    /* Keyframe Animations */
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px var(--accent-glow); }
+      50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.6); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade {
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Dynamic Glassmorphism Nav */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 8%;
+      position: sticky;
+      top: 0;
+      background: rgba(5, 9, 17, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .brand-logo {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .brand-logo .logo-main {
+      font-family: var(--font-serif);
+      font-size: 1.9rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: var(--text-white);
+      line-height: 1;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .brand-logo .logo-sub {
+      font-family: var(--font-sans);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 5px;
+      color: var(--accent-red-bright);
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    nav a:not(.btn-primary)::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-red-bright);
+      transition: width 0.3s ease;
+    }
+
+    nav a:not(.btn-primary):hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: var(--text-white);
+    }
+
+    /* Futuristic Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-red-bright) 100%);
+      color: var(--text-white);
+      padding: 12px 26px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(139, 21, 35, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 6px 28px rgba(220, 38, 38, 0.6);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+    }
+
+    .hero-badge {
+      background: rgba(139, 21, 35, 0.25);
+      border: 1px solid var(--accent-red-bright);
+      color: #fca5a5;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 30px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(8px);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      max-width: 950px;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      line-height: 1.15;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      max-width: 680px;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    /* Interactive Category Tabs */
+    .categories {
+      padding: 60px 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 12px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--accent-red);
+      color: var(--text-white);
+      border-color: var(--accent-red-bright);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      backdrop-filter: blur(12px);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .tab-content.active {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .tab-info h3 {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--text-white);
+    }
+
+    .tab-info p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+
+    .tab-features {
+      list-style: none;
+    }
+
+    .tab-features li {
+      margin-bottom: 10px;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tab-features li::before {
+      content: '✦';
+      color: var(--accent-red-bright);
+    }
+
+    /* Glow Pricing Section */
+    .pricing {
+      padding: 100px 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .pricing-card {
+      background: linear-gradient(180deg, rgba(22, 35, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 50px 40px;
+      text-align: center;
+      position: relative;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      animation: pulseGlow 6s infinite alternate;
+      transition: transform 0.4s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .pricing-price {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--text-white);
+      margin: 25px 0 10px;
+      letter-spacing: -1px;
+    }
+
+    .pricing-price span {
+      font-size: 0.9rem;
+      color: #fca5a5;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: block;
+      margin-top: 5px;
+      font-weight: 700;
+    }
+
+    .features-list {
+      list-style: none;
+      text-align: left;
+      margin: 35px 0;
+    }
+
+    .features-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      font-size: 0.98rem;
+    }
+
+    .features-list li::before {
+      content: "✓";
+      color: var(--accent-red-bright);
+      font-weight: 800;
+      margin-right: 14px;
+      font-size: 1.1rem;
+    }
+
+    /* Vouches Grid Section */
+    .vouches {
+      padding: 100px 8%;
+      background: rgba(3, 7, 18, 0.8);
+      border-top: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .vouch-stats {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-white);
+      font-family: var(--font-serif);
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .vouch-header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      max-width: 1200px;
+      margin: 0 auto 50px auto;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .vouch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .vouch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 30px;
+      border-radius: 14px;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vouch-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-red-bright), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .vouch-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(220, 38, 38, 0.3);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .vouch-card:hover::before {
+      opacity: 1;
+    }
+
+    .vouch-author {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .vouch-name {
+      font-weight: 700;
+      color: var(--text-white);
+      font-size: 1.05rem;
+    }
+
+    .vouch-badge {
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      color: #fca5a5;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .vouch-text {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* Modal Form Overlay */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #0f172a;
+      border: 1px solid var(--border-glow);
+      padding: 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .modal-content h3 {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      color: var(--text-white);
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-red-bright);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 50px 8%;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      background-color: var(--bg-dark);
+    }
+
+    @media (max-width: 768px) {
+      .tab-content.active {
+        grid-template-columns: 1fr;
+      }
+      .vouch-stats {
+        flex-direction: column;
+        gap: 20px;
+      }
+      header {
+        padding: 15px 5%;
+      }
+      nav a:not(.btn-primary) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Glassmorphism Header -->
+  <header>
+    <a href="#" class="brand-logo">
+      <span class="logo-main">RAQ</span>
+      <span class="logo-sub">Academy</span>
+    </a>
+    <nav>
+      <a href="#catalog">Catalog</a>
+      <a href="#membership">Membership</a>
+      <a href="#vouches">Vouches</a>
+      <a href="#membership" class="btn-primary">Get Access <span>→</span></a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero animate-fade">
+    <div class="hero-badge">Verified Supplier Directory • Updated Weekly</div>
+    <h1>Direct Access to Private Sourcing Channels</h1>
+    <p>Skip middlemen and steep markups. Instantly connect with top-tier suppliers for 1:1 streetwear, luxury fragrance, designer accessories, and premium goods.</p>
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+      <a href="#membership" class="btn-primary" style="padding: 16px 36px; font-size: 0.95rem;">Get Lifetime Access Pass</a>
+      <a href="#vouches" class="tab-btn" style="padding: 16px 30px; text-decoration: none;">View Community Vouches</a>
+    </div>
+  </section>
+
+  <!-- Category Showcase Tabs -->
+  <section class="categories" id="catalog">
+    <div class="section-title">
+      <h2>Curated Categories</h2>
+      <p>Direct contacts with factory-direct production lines across major markets.</p>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab(event, 'streetwear')">Streetwear & Kicks</button>
+      <button class="tab-btn" onclick="switchTab(event, 'fragrance')">Fragrances & Cologne</button>
+      <button class="tab-btn" onclick="switchTab(event, 'luxury')">Luxury & Tech</button>
+    </div>
+
+    <div id="streetwear" class="tab-content active">
+      <div class="tab-info">
+        <h3>Apparel & Footwear</h3>
+        <p>Direct access to premier factories producing high-grade materials, perfect stitching, and authentic-grade weight specifications.</p>
+        <ul class="tab-features">
+          <li>1:1 Sneaker Batch Suppliers (PK, FK, GX)</li>
+          <li>Heavyweight Cotton Hoodie & Tee Factories</li>
+          <li>Direct WhatsApp & Wechat Support</li>
+        </ul>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 30px; border: 1px solid var(--border-color); text-align: center;">
+        <span style="font-size: 3rem;">👟</span>
+        <h4 style="margin-top: 10px;">Fast Shipping Lines</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Includes direct triangular shipping routes to avoid customs delays.</p>
+      </div>
+    </div>
+
+    <div id="fragrance" class="tab-content">
+      <div class="tab-info">
+        <h3>Designer Cologne & Perfume</h3>
+        <p>Premium fragrance vendors featuring long-lasting projection, original bottle molds, and luxury packaging.</p>
+        <ul class="tab-features">
+          <li>Niche & Designer Fragrance Suppliers</li>
+          <li>Full Retail Packaging & Atomizers</li>
+          <li>Bulk Wholesale Pricing Models</li>
+        </ul>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 30px; border: 1px solid var(--border-color); text-align: center;">
+        <span style="font-size: 3rem;">🧪</span>
+        <h4 style="margin-top: 10px;">High Oil Concentration</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">8+ hours of projection guaranteed on top-tier batches.</p>
+      </div>
+    </div>
+
+    <div id="luxury" class="tab-content">
+      <div class="tab-info">
+        <h3>Luxury Accessories & Tech</h3>
+        <p>Sourcing lines for designer leather goods, high-grade timepieces, and consumer electronics.</p>
+        <ul class="tab-features">
+          <li>Real Leather Bags, Belts & Wallets</li>
+          <li>Electronics & ANC Earbud Suppliers</li>
+          <li>Jewelry with Real Silver & Moissanite Tests</li>
+        </ul>
+      </div>
+      <div style="background: rgba(0,0,0,0.3); border-radius: 12px; padding: 30px; border: 1px solid var(--border-color); text-align: center;">
+        <span style="font-size: 3rem;">⌚</span>
+        <h4 style="margin-top: 10px;">Precision Craftsmanship</h4>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">Sapphire glass & automatic movement watch suppliers included.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="membership">
+    <div class="section-title">
+      <h2>One-Time Pass</h2>
+      <p>Single payment. Permanent access. Instant delivery.</p>
+    </div>
+
+    <div class="pricing-card">
+      <div class="hero-badge" style="margin-bottom: 10px; animation: none;">Lifetime Access Directory</div>
+      <div class="pricing-price">
+        $29.99
+        <span>One-Time Payment • Zero Recurring Fees</span>
+      </div>
+
+      <ul class="features-list">
+        <li>Direct 1:1 Apparel & Sneaker Suppliers</li>
+        <li>1:1 Cologne & Designer Fragrance Vendors</li>
+        <li>Luxury Watches, Leather Goods & Accessories</li>
+        <li>Customs Safety & Safe Parcel Shipping Guides</li>
+        <li>Direct WhatsApp / WeChat Contact Info</li>
+        <li>Free Lifetime Access to New Vendor Drops</li>
+      </ul>
+
+      <a href="#" class="btn-primary" style="width: 100%; padding: 18px;">Unlock Instant Access</a>
+    </div>
+  </section>
+
+  <!-- Animated Vouches Section -->
+  <section class="vouches" id="vouches">
+    <div class="vouch-stats">
+      <div>
+        <div class="stat-number" id="vouchCount">1,420</div>
+        <div class="stat-label">Verified Members</div>
+      </div>
+      <div>
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Verified Links</div>
+      </div>
+      <div>
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Directory Updates</div>
+      </div>
+    </div>
+
+    <div class="vouch-header-actions">
+      <div>
+        <h2 style="font-family: var(--font-serif); font-size: 2.2rem;">Community Vouches</h2>
+        <p style="color: var(--text-muted);">Real feedback from members who saved thousands on sourcing.</p>
+      </div>
+      <button class="btn-primary" onclick="openModal()">+ Submit Vouch</button>
+    </div>
+
+    <div class="vouch-grid" id="vouchContainer">
+      <div class="vouch-card">
+        <div class="vouch-author">
+          <span class="vouch-name">@Alex_K</span>
+          <span class="vouch-badge">Verified Buyer</span>
+        </div>
+        <p class="vouch-text">"Legit saved me so much money. Got 3 cologne bottles and a haul delivered in less than 10 days. The cologne vendor link alone is worth double the price."</p>
+      </div>
+
+      <div class="vouch-card">
+        <div class="vouch-author">
+          <span class="vouch-name">@DrippySavage</span>
+          <span class="vouch-badge">Verified Buyer</span>
+        </div>
+        <p class="vouch-text">"RAQ Academy is 100% legit. Instant delivery of links right after payment. Smooth process, quality vendors."</p>
+      </div>
+
+      <div class="vouch-card">
+        <div class="vouch-author">
+          <span class="vouch-name">@Jordan_Rep</span>
+          <span class="vouch-badge">Verified Buyer</span>
+        </div>
+        <p class="vouch-text">"Best purchase I’ve made. The streetwear suppliers respond super fast on WhatsApp and quality is 10/10."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Submit Vouch Modal -->
+  <div class="modal" id="vouchModal">
+    <div class="modal-content">
+      <h3>Submit Your Vouch</h3>
+      <form id="vouchForm">
+        <div class="form-group">
+          <label for="username">Username / Discord Handle</label>
+          <input type="text" id="username" placeholder="@yourhandle" required>
+        </div>
+        <div class="form-group">
+          <label for="review">Your Review / Experience</label>
+          <textarea id="review" rows="4" placeholder="How was your experience using RAQ Academy?" required></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="tab-btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Submit Vouch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="brand-logo" style="align-items: center; margin-bottom: 16px;">
+      <span class="logo-main" style="font-size: 1.5rem;">RAQ</span>
+      <span class="logo-sub" style="font-size: 0.55rem;">Academy</span>
+    </div>
+    <p>&copy; 2026 RAQ Academy. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Tab Switch Logic
+    function switchTab(evt, tabName) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(c => c.classList.remove('active'));
+      
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+
+      document.getElementById(tabName).classList.add('active');
+      evt.currentTarget.classList.add('active');
+    }
+
+    // Modal Logic
+    function openModal() {
+      document.getElementById('vouchModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('vouchModal').style.display = 'none';
+    }
+
+    // Form Submission Logic
+    document.getElementById('vouchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const review = document.getElementById('review').value;
+
+      const newVouch = document.createElement('div');
+      newVouch.className = 'vouch-card animate-fade';
+      newVouch.innerHTML = `
+        <div class="vouch-author">
+          <span class="vouch-name">${username}</span>
+          <span class="vouch-badge">Verified Member</span>
+        </div>
+        <p class="vouch-text">"${review}"</p>
+      `;
+
+      document.getElementById('vouchContainer').prepend(newVouch);
+      
+      // Increment Vouch Counter
+      const counter = document.getElementById('vouchCount');
+      let currentVal = parseInt(counter.innerText.replace(',', ''));
+      counter.innerText = (currentVal + 1).toLocaleString();
+
+      closeModal();
+      this.reset();
+    });
+  </script>
+</body>
+</html>
